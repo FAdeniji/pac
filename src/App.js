@@ -1,25 +1,32 @@
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
-import Services from "./components/Services";
-import Team from "./components/Team";
-import Testimonial from "./components/Testimonial";
-import WhyUs from "./components/WhyUs";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import News from "./pages/News";
+import NewsDetails from "./pages/NewsDetails";
+import ScrollRestoration from "./components/ScrollRestoration";
 
 function App() {
+  const [activeSection, setActiveSection] = useState(null);
+  useEffect(() => {
+    AOS.init();
+  }, []);
   return (
     <>
-      <Navbar />
-      <Hero />
-      <About />
-      {/* <WhyUs />
-      <Services /> */}
-      <Team />
-      <Testimonial />
-      <Contact />
-      <Footer />
+      <Router>
+        <ScrollRestoration/>
+        <Navbar
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+        />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/cac-commence-strike" element={<NewsDetails />} />
+        </Routes>
+      </Router>
     </>
   );
 }
